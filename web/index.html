@@ -1,0 +1,308 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PD PC</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="nui-hidden">
+  <div id="login" class="window hidden">
+    <div class="title-bar">
+      <div class="title-bar-text">Secure Police Terminal</div>
+    </div>
+    <div class="window-body">
+      <div class="agency">
+        <div class="shield"></div>
+        <div class="agency-text">
+          <div class="agency-name">Police Department</div>
+          <div class="agency-sub">Mission Row Precinct</div>
+        </div>
+      </div>
+
+      <div class="notice">
+        Unauthorized access is prohibited. Activity may be monitored and reported.
+      </div>
+
+      <div class="field">
+        <label>Officer Name</label>
+        <input type="text" id="username" placeholder="Enter your name/callsign">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="password" value="********" disabled>
+      </div>
+      <div class="actions">
+        <button id="loginBtn">Login</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="desktop" class="desktop">
+    <div class="taskbar hidden" id="taskbar">
+      <div class="start" id="start-btn">Start</div>
+      <div class="tasks" id="tasks"></div>
+      <div class="tray" id="tray"></div>
+      <div class="clock" id="clock"></div>
+      <div class="start-menu hidden" id="start-menu">
+        <button id="menu-logout">Logout</button>
+        <button id="menu-shutdown">Shut Down PC</button>
+      </div>
+      <div class="task-context hidden" id="task-context">
+        <button data-task-action="restore">Restore</button>
+        <button data-task-action="minimize">Minimize</button>
+        <button data-task-action="close">Close</button>
+      </div>
+    </div>
+
+    <div class="icons hidden" id="desktop-icons">
+      <div class="icon" data-app="evidence">
+        <div class="icon-box folder">EV</div>
+        <span>Evidence Booking</span>
+      </div>
+      <div class="icon" data-app="booking">
+        <div class="icon-box form">BK</div>
+        <span>Booking</span>
+      </div>
+    </div>
+
+    <div class="icons hidden" id="desktop-icons-viewers">
+      <div class="icon" data-app="evidence-view">
+        <div class="icon-box folder">ER</div>
+        <span>Evidence Records</span>
+      </div>
+      <div class="icon" data-app="booking-view">
+        <div class="icon-box form">BR</div>
+        <span>Booking Records</span>
+      </div>
+    </div>
+
+    <div id="app-evidence" class="window app hidden">
+      <div class="title-bar">
+        <div class="title-bar-text">Evidence Booking</div>
+        <div class="title-bar-controls"><button class="min" data-minimize>—</button><button class="max" data-maximize>▢</button><button class="close" data-close>×</button></div>
+      </div>
+      <div class="window-body">
+        <div class="app-splash" id="ev-splash">
+          <div class="splash-title">Evidence</div>
+          <div class="splash-sub">Welcome. Prepare to log case evidence.</div>
+          <button id="ev-continue" type="button">Continue</button>
+        </div>
+        <div id="ev-pages" class="app-pages hidden">
+          <div class="tabs">
+            <button class="tab-btn" data-target="ev-case">Case</button>
+            <button class="tab-btn" data-target="ev-attach">Attachments</button>
+            <button class="tab-btn" data-target="ev-summary">Summary</button>
+          </div>
+          <div class="app-page" data-page="ev-case">
+        <div class="section-title">Case Details</div>
+        <div class="form-grid">
+          <div class="field"><label>Case Number</label><input id="ev-case" type="text"></div>
+          <div class="field"><label>Suspect ID</label><input id="ev-suspect-id" type="text"></div>
+        </div>
+        <div class="form-grid">
+          <div class="field"><label>Incident Location</label><input id="ev-location" type="text" placeholder="Street / Area" /></div>
+          <div class="field"><label>Collection Time</label><input id="ev-collect-time" type="datetime-local" /></div>
+        </div>
+        <div class="form-grid">
+          <div class="field"><label>Officer Badge/Callsign</label><input id="ev-badge" type="text" placeholder="e.g., 2L-12" /></div>
+          <div class="field"><label>Evidence Locker</label><input id="ev-locker" type="text" placeholder="Locker # or Shelf" /></div>
+        </div>
+        <div class="field"><label>Description</label><textarea id="ev-desc" rows="4"></textarea></div>
+        <div class="field"><label>Items (comma)</label><input id="ev-items" type="text" placeholder="e.g. 9mm handgun, baggie of substance"></div>
+        <div class="field"><label>Involved Units (comma)</label><input id="ev-units" type="text" placeholder="e.g., 2L-12, 2A-21" /></div>
+          </div>
+          <div class="app-page hidden" data-page="ev-attach">
+        <div class="section-title">Attachments</div>
+        <div class="field">
+          <div class="charges">
+            <input id="ev-attach-url" type="url" placeholder="https://..." />
+            <button id="ev-add-attach" type="button">Add</button>
+          </div>
+          <div id="ev-attach-chips" class="chips"></div>
+        </div>
+        <div class="section-title">Quick Templates</div>
+        <div class="field">
+          <div class="charges">
+            <select id="ev-template-select">
+              <option value="">Select template item</option>
+              <option>Photograph - Scene Overview</option>
+              <option>Bodycam Footage - Arrest</option>
+              <option>Weapon - 9mm Handgun (Serial Logged)</option>
+              <option>Narcotics - Suspected Cocaine (Field Test)</option>
+              <option>Vehicle Plate Photo</option>
+            </select>
+            <button id="ev-add-template" type="button">Add to Items</button>
+          </div>
+        </div>
+          </div>
+          <div class="app-page hidden" data-page="ev-summary">
+            <div class="notice">Review your entries, then submit.</div>
+            <div class="actions"><button id="ev-submit">Submit Evidence</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="resizer nw"></div><div class="resizer ne"></div><div class="resizer sw"></div><div class="resizer se"></div>
+      <div class="resizer n"></div><div class="resizer s"></div><div class="resizer w"></div><div class="resizer e"></div>
+    </div>
+
+    <div id="app-booking" class="window app hidden">
+      <div class="title-bar">
+        <div class="title-bar-text">Booking</div>
+        <div class="title-bar-controls"><button class="min" data-minimize>—</button><button class="max" data-maximize>▢</button><button class="close" data-close>×</button></div>
+      </div>
+      <div class="window-body">
+        <div class="app-splash" id="bk-splash">
+          <div class="splash-title">Booking</div>
+          <div class="splash-sub">Welcome. Process the suspect on the next screens.</div>
+          <button id="bk-continue" type="button">Continue</button>
+        </div>
+        <div id="bk-pages" class="app-pages hidden">
+          <div class="tabs">
+            <button class="tab-btn" data-target="bk-suspect">Suspect</button>
+            <button class="tab-btn" data-target="bk-charges">Charges</button>
+            <button class="tab-btn" data-target="bk-arrest">Arrest</button>
+            <button class="tab-btn" data-target="bk-notes">Notes</button>
+          </div>
+          <div class="app-page" data-page="bk-suspect">
+        <div class="section-title">Suspect</div>
+        <div class="form-grid">
+          <div class="field"><label>Server ID</label><input id="bk-id" type="number" min="1"></div>
+          <div class="field"><label>Suspect Name</label><input id="bk-name" type="text" placeholder="Last, First" /></div>
+        </div>
+        <div class="form-grid">
+          <div class="field"><label>DOB</label><input id="bk-dob" type="date" /></div>
+          <div class="field"><label>Sex</label>
+            <select id="bk-sex">
+              <option value="">Select</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-grid">
+          <div class="field"><label>Address</label><input id="bk-address" type="text" /></div>
+          <div class="field"><label>Phone</label><input id="bk-phone" type="text" /></div>
+        </div>
+          </div>
+          <div class="app-page hidden" data-page="bk-charges">
+        <div class="section-title">Charges</div>
+        <div class="field">
+          <div class="charges">
+            <select id="bk-charge-select"></select>
+            <button id="bk-add-charge" type="button">Add</button>
+          </div>
+          <div id="bk-charge-chips" class="chips"></div>
+        </div>
+        <div class="section-title">Recommended</div>
+        <div class="form-grid">
+          <div class="field"><label>Total Time (sec)</label><input id="bk-total-time" type="number" disabled></div>
+          <div class="field"><label>Total Fine ($)</label><input id="bk-total-fine" type="number" disabled></div>
+        </div>
+          </div>
+          <div class="app-page hidden" data-page="bk-arrest">
+        <div class="section-title">Arrest Details</div>
+        <div class="form-grid">
+          <div class="field"><label>Arrest Location</label><input id="bk-arrest-loc" type="text" placeholder="Street / Area" /></div>
+          <div class="field"><label>Arrest Time</label><input id="bk-arrest-time" type="datetime-local" /></div>
+        </div>
+        <div class="form-grid">
+          <div class="field"><label>Miranda Read At</label><input id="bk-miranda-time" type="time" /></div>
+          <div class="field"><label>Vehicle Plate</label><input id="bk-plate" type="text" /></div>
+        </div>
+        <div class="form-grid">
+          <div class="field"><label>Mugshot URL</label><input id="bk-mug" type="url" placeholder="https://..." /></div>
+          <div class="field"><label>Medical Cleared</label>
+            <select id="bk-med">
+              <option value="">Select</option>
+              <option>Yes</option>
+              <option>No</option>
+            </select>
+          </div>
+        </div>
+          </div>
+          <div class="app-page hidden" data-page="bk-notes">
+        <div class="section-title">Notes</div>
+        <div class="field"><textarea id="bk-notes" rows="4" placeholder="Additional details, incident context, etc."></textarea></div>
+        <div class="section-title">Booked Property (comma)</div>
+        <div class="field"><input id="bk-inventory" type="text" placeholder="Wallet, keys, phone" /></div>
+        <div class="actions"><button id="bk-submit">Book Suspect</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="resizer nw"></div><div class="resizer ne"></div><div class="resizer sw"></div><div class="resizer se"></div>
+      <div class="resizer n"></div><div class="resizer s"></div><div class="resizer w"></div><div class="resizer e"></div>
+    </div>
+
+    <div id="app-evidence-view" class="window app hidden">
+      <div class="title-bar">
+        <div class="title-bar-text">Evidence Records</div>
+        <div class="title-bar-controls"><button class="min" data-minimize>—</button><button class="max" data-maximize>▢</button><button class="close" data-close>×</button></div>
+      </div>
+      <div class="window-body">
+        <div class="toolbar">
+          <input id="ev-search" type="text" placeholder="Search case, officer, suspect" />
+          <button id="ev-refresh">Refresh</button>
+        </div>
+        <div class="records">
+          <div class="card-grid" id="ev-cards"></div>
+          <div class="pagination" id="ev-pager"></div>
+        </div>
+      </div>
+      <div class="resizer nw"></div><div class="resizer ne"></div><div class="resizer sw"></div><div class="resizer se"></div>
+      <div class="resizer n"></div><div class="resizer s"></div><div class="resizer w"></div><div class="resizer e"></div>
+    </div>
+
+    <div id="app-booking-view" class="window app hidden">
+      <div class="title-bar">
+        <div class="title-bar-text">Booking Records</div>
+        <div class="title-bar-controls"><button class="min" data-minimize>—</button><button class="max" data-maximize>▢</button><button class="close" data-close>×</button></div>
+      </div>
+      <div class="window-body">
+        <div class="toolbar">
+          <input id="bk-search" type="text" placeholder="Search target, officer, charges" />
+          <select id="bk-time-filter">
+            <option value="">All times</option>
+            <option value="<=300"><= 300s</option>
+            <option value=">300">> 300s</option>
+          </select>
+          <button id="bk-refresh">Refresh</button>
+        </div>
+        <div class="records">
+          <div class="card-grid" id="bk-cards"></div>
+          <div class="pagination" id="bk-pager"></div>
+        </div>
+      </div>
+      <div class="resizer nw"></div><div class="resizer ne"></div><div class="resizer sw"></div><div class="resizer se"></div>
+      <div class="resizer n"></div><div class="resizer s"></div><div class="resizer w"></div><div class="resizer e"></div>
+    </div>
+
+    <div id="app-evidence-detail" class="window app hidden">
+      <div class="title-bar">
+        <div class="title-bar-text">Evidence Case</div>
+        <div class="title-bar-controls"><button class="min" data-minimize>—</button><button class="max" data-maximize>▢</button><button class="close" data-close>×</button></div>
+      </div>
+      <div class="window-body">
+        <div id="ev-detail" class="detail"></div>
+      </div>
+      <div class="resizer nw"></div><div class="resizer ne"></div><div class="resizer sw"></div><div class="resizer se"></div>
+      <div class="resizer n"></div><div class="resizer s"></div><div class="resizer w"></div><div class="resizer e"></div>
+    </div>
+
+    <div id="app-booking-detail" class="window app hidden">
+      <div class="title-bar">
+        <div class="title-bar-text">Booking Case</div>
+        <div class="title-bar-controls"><button class="min" data-minimize>—</button><button class="max" data-maximize>▢</button><button class="close" data-close>×</button></div>
+      </div>
+      <div class="window-body">
+        <div id="bk-detail" class="detail"></div>
+      </div>
+      <div class="resizer nw"></div><div class="resizer ne"></div><div class="resizer sw"></div><div class="resizer se"></div>
+      <div class="resizer n"></div><div class="resizer s"></div><div class="resizer w"></div><div class="resizer e"></div>
+    </div>
+  </div>
+
+  <script src="desktop.js"></script>
+</body>
+</html>
