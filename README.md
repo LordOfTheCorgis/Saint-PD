@@ -1,11 +1,9 @@
-# Saint-PD (pd_pc)
-
-Desktop-style PD PC for FiveM. Log evidence, book suspects, view records. Sends Discord webhooks. Jails targets.
+# Saint-PD 
 
 ## Install
-- Put `pd_pc` in resources and start it.
+- Put Script in resources and start it.
 - Make sure default chat is running (for jail messages).
-- Edit `pd_pc/config.lua`.
+- Edit `config.lua`.
 
 ## Use
 - Go to a configured PC and press the key (default E) or use the test command if enabled.
